@@ -17,7 +17,7 @@ data "azurerm_subscription" "current" {}
 
 resource "azurerm_resource_group" "rg_billing" {
   name     = "rg-billing"
-  location = "uksouth"
+  location = var.location
 }
 
 resource "azurerm_monitor_action_group" "actiongroup" {
