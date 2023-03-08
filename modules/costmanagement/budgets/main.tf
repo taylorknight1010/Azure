@@ -1,41 +1,41 @@
 data "azurerm_subscription" "current" {}
 
-resource "azurerm_resource_group" "example" {
-  name     = "example"
-  location = "eastus"
+resource "azurerm_resource_group" "rg_billing" {
+  name     = "rg-billing"
+  location = "uksouth"
 }
 
-resource "azurerm_monitor_action_group" "example" {
-  name                = "example"
-  resource_group_name = azurerm_resource_group.example.name
-  short_name          = "example"
+resource "azurerm_monitor_action_group" "actiongroup" {
+  name                = "actiongroup-monitor"
+  resource_group_name = azurerm_resource_group.rg_billing.name
+  short_name          = "actiongroup"
 }
 
-resource "azurerm_consumption_budget_subscription" "example" {
-  name            = "example"
+resource "azurerm_consumption_budget_subscription" "budget" {
+  name            = "consumptionbudget"
   subscription_id = data.azurerm_subscription.current.id
 
-  amount     = 1000
+  amount     = 50
   time_grain = "Monthly"
 
   time_period {
-    start_date = "2022-06-01T00:00:00Z"
-    end_date   = "2022-07-01T00:00:00Z"
+    start_date = "2023-03-08T00:00:00Z"
+    
   }
 
   filter {
     dimension {
       name = "ResourceGroupName"
       values = [
-        azurerm_resource_group.example.name,
+        azurerm_resource_group.rg_billing.name,
       ]
     }
 
     tag {
-      name = "foo"
+      name = "money"
       values = [
-        "bar",
-        "baz",
+        "broke",
+        "extra broke",
       ]
     }
   }
@@ -46,12 +46,11 @@ resource "azurerm_consumption_budget_subscription" "example" {
     operator  = "EqualTo"
 
     contact_emails = [
-      "foo@example.com",
-      "bar@example.com",
+      "taylorreeseknight@hotmail.com",
     ]
 
     contact_groups = [
-      azurerm_monitor_action_group.example.id,
+      azurerm_monitor_action_group.actiongroup.id,
     ]
 
     contact_roles = [
@@ -60,14 +59,13 @@ resource "azurerm_consumption_budget_subscription" "example" {
   }
 
   notification {
-    enabled        = false
-    threshold      = 100.0
+    enabled        = true
+    threshold      = 60.0
     operator       = "GreaterThan"
     threshold_type = "Forecasted"
 
     contact_emails = [
-      "foo@example.com",
-      "bar@example.com",
+      "taylorreeseknight@hotmail.com",
     ]
   }
 }
