@@ -1,7 +1,7 @@
 module "rg" {
   source = "./modules/rg"
-  name   = locals.rg_name
-  location = locals.location
+  name   = local.rg_name
+  location = local.location
   tags = {
     Terraform   = "true"
     Environment = "prod"
