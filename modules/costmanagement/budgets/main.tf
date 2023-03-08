@@ -33,7 +33,7 @@ resource "azurerm_consumption_budget_subscription" "budget" {
   time_grain = "Monthly"
 
   time_period {
-    start_date = "2023-03-08T00:00:00Z"
+    start_date = "2023-03-01T00:00:00Z"
     
   }
 
