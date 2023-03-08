@@ -1,3 +1,17 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source = "hashicorp/azurerm"
+      version = "3.46.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  # Configuration options
+}
+
+
 data "azurerm_subscription" "current" {}
 
 resource "azurerm_resource_group" "rg_billing" {
