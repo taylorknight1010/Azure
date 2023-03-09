@@ -24,8 +24,6 @@ nic = {
   
 vm = {
   id = "DC01"
-  
-  disktype = ["10.0.0.0/8"] 
   location = "uksouth"
   size = "Standard_B1ls"
   os_disk = {
