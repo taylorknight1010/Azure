@@ -3,6 +3,7 @@ module "vnet" {
   
   hubvnet = local.hubvnet
   location = local.location
+  coresubnet = local.coresubnet
   
   tags = {
     Terraform   = "true"
