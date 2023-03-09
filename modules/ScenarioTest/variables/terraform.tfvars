@@ -28,7 +28,7 @@ vm = {
   publisher = "MicrosoftWindowsServer"
   offer = "WindowsServer"
   sku = "2019-Datacenter"
-  version = "latest"
+  osversion = "latest"
 }  
   
   
