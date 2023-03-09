@@ -24,8 +24,8 @@ resource "azurerm_windows_virtual_machine" "vm" {
   ]
 
   os_disk {
-    caching              = var.vm.os_disk.cachine
-    storage_account_type = var.vm.os_disk.cachine.storage_account_type
+    caching              = var.vm.os_disk.caching
+    storage_account_type = var.vm.os_disk.storage_account_type
   }
 
   source_image_reference {
