@@ -30,3 +30,7 @@ variable "resource_group_name" {
   type = any
 }
 
+variable "version" {
+ default = "latest" 
+}
+
