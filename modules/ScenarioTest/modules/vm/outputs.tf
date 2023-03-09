@@ -1,9 +1,9 @@
 output "nic" {
-  description = "virtual network created"
-  value       = zurerm_network_interface.hubvnet.name
+  description = "NIC for VM created"
+  value       = azurerm_network_interface.hubvnet.name
 }
 
 output "vm" {
-  description = "subnet created"
-  value       = azurerm_virtual_machine.coresubnet.name
+  description = "virtual machine created"
+  value       = azurerm_windows_virtual_machine.coresubnet.name
 }
