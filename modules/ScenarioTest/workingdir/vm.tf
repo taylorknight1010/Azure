@@ -13,7 +13,7 @@ module "vm" {
   caching              = var.vm.caching
   storage_account_type = var.vm.storage_account_type  
   size                = var.vm.size
-  
+  osversion = var.osversion
   
   tags = {
     Terraform   = "true"
