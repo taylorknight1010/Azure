@@ -1,18 +1,18 @@
 module "vm" {
   source = "../modules/vm"
   
-  nic = local.nic
-  location = local.location
-  vm = local.vm
+  nic = var.nic
+  location = var.location
+  vm = var.vm
   resource_group_name = module.rg.resource_group_name
   coresubnet = module.vnet.coresubnet
   hubvnet = module.vnet.hubvnet
-  publisher = local.vm.publisher
-  offer     = local.vm.offer
-  sku       = local.vm.sku
-  caching              = local.vm.caching
-  storage_account_type = local.vm.storage_account_type  
-  size                = local.vm.size
+  publisher = var.vm.publisher
+  offer     = var.vm.offer
+  sku       = var.vm.sku
+  caching              = var.vm.caching
+  storage_account_type = var.vm.storage_account_type  
+  size                = var.vm.size
   
   
   tags = {
