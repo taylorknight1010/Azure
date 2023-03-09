@@ -12,7 +12,7 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_windows_virtual_machine" "vm" {
-  name                = var.vm.name
+  name                = var.vm.id
   resource_group_name = var.resource_group_name
   location            = var.location
   size                = var.vm.size
