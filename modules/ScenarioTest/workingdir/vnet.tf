@@ -1,7 +1,7 @@
 module "vnet" {
   source = "../modules/vnet"
   
-  corevnet = local.corevnet
+  hubvnet = local.hubvnet
   location = local.location
   
   tags = {
