@@ -15,7 +15,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   name                = var.vm.id
   resource_group_name = var.resource_group_name
   location            = var.location
-  size                = var.vm.size
+  size                = var.size
   admin_username      = "localaccount"
   admin_password      = "Testing123!"
   tags                = var.tags
@@ -24,15 +24,15 @@ resource "azurerm_windows_virtual_machine" "vm" {
   ]
 
   os_disk {
-    caching              = var.vm.os_disk.caching
-    storage_account_type = var.vm.os_disk.storage_account_type
+    caching              = var.caching
+    storage_account_type = var.storage_account_type
   }
 
   source_image_reference {
-    publisher = var.vm.source_image_reference.publisher
-    offer     = var.vm.source_image_reference.offer
-    sku       = var.vm.source_image_reference.sku
-    version   = var.vm.source_image_reference.verison
+    publisher = var.publisher
+    offer     = var.offer
+    sku       = var.sku
+    version   = var.verison
   }
 }
 
