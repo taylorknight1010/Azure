@@ -3,7 +3,7 @@ module "vm" {
   
   nic = local.nic
   location = local.location
-  vm = local.coresubnet
+  vm = local.vm
   resource_group_name = module.rg.resource_group_name
   coresubnet = module.vnet.coresubnet
   hubvnet = module.vnet.hubvnet
@@ -14,7 +14,7 @@ module "vm" {
   caching              = local.vm.caching
   storage_account_type = local.vm.storage_account_type  
   size                = local.vm.size
-  subnet_id                     = module.vnet.coresubnet.id  
+  
   
   tags = {
     Terraform   = "true"
