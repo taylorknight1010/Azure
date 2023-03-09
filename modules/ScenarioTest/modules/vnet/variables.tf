@@ -1,11 +1,9 @@
 variable "hubvnet" {
-  description = "The name which should be used for this virtual network."
-  type = string
+  type = map(string)
 }
 
 variable "coresubnet" {
-  description = "The name which should be used for this virtual network."
-  type = string
+  type = map(string)
 }
 
 variable "location" {
