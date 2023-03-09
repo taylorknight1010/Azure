@@ -11,28 +11,37 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-resource "azurerm_windows_virtual_machine" "vm" {
-  name                = var.vm.id
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  size                = var.size
-  admin_username      = "localaccount"
-  admin_password      = "Testing123!"
-  tags                = var.tags
-  network_interface_ids = [
-    azurerm_network_interface.nic.id,
-  ]
+resource "azurerm_virtual_machine" "vm" {
+  name                  = "${var.vm.id}"
+  location              = "${var.vm.location}"
+  size                  = "${var.vm.size}"
+  storage_account_type  = "${var.vm.storage_account_type}"
+  tags                  = var.tags
 
-  os_disk {
-    caching              = var.caching
-    storage_account_type = var.storage_account_type
+  storage_os_disk {
+    name              = "${var.vm.id}-osdisk"
+    caching           = "${var.vm.caching}"
+    create_option     = "FromImage"
+    managed_disk_type = "${var.vm.storage_account_type}"
+  }
+
+  os_profile {
+    computer_name  = "${var.vm.id}"
+  admin_username   = "localaccount"
+  admin_password   = "Testing123!"
+  }
+
+  os_profile_windows_config {
+    provision_vm_agent = true
   }
 
   source_image_reference {
-    publisher = var.publisher
-    offer     = var.offer
-    sku       = var.sku
-    version   = var.osverison
+    publisher = "${var.vm.publisher}"
+    offer     = "${var.vm.offer}"
+    sku       = "${var.vm.sku}"
+    osversion   = "${var.vm.osversion}"
   }
-}
 
+  network_interface_ids = ["${azurerm_network_interface.nic.id}"]
+
+}
