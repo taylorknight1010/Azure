@@ -32,7 +32,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
     publisher = var.publisher
     offer     = var.offer
     sku       = var.sku
-    version   = var.verison
+    version   = var.osverison
   }
 }
 
