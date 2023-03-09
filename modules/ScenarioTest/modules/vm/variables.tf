@@ -1,12 +1,5 @@
 variable "vm" {
-  type    = object({
-    id                  = string
-    disktype            = list(string)
-    location            = string
-    size                = string
-    os_disk             = map(string)
-    source_image_reference = map(string)
-  })
+  type = any
 }
 
 variable "nic" {
