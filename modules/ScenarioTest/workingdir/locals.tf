@@ -29,7 +29,7 @@ vm = {
   location = "uksouth"
   size = "Standard_B1ls"
   os_disk = {
-    cachine = "ReadWrite"
+    caching = "ReadWrite"
     storage_account_type = "Standard_LRS"    
   }
   source_image_reference = {
