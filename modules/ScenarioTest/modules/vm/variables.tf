@@ -6,6 +6,11 @@ variable "vm" {
   type = any
 }
 
+variable "coresubnet" {
+  type = any
+}
+
+
 variable "location" {
   description = "The location which should be used for this virtual network."
   type = string
