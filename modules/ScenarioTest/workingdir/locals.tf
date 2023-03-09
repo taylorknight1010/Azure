@@ -26,16 +26,12 @@ vm = {
   id = "DC01"
   location = "uksouth"
   size = "Standard_B1ls"
-  os_disk = {
-    caching = "ReadWrite"
-    storage_account_type = "Standard_LRS"    
-  }
-  source_image_reference = {
-    publisher = "MicrosoftWindowsServer"
-    offer = "WindowsServer"
-    sku = "2019-Datacenter"
-    version = "latest"
-  }
+  caching = "ReadWrite"
+  storage_account_type = "Standard_LRS"    
+  publisher = "MicrosoftWindowsServer"
+  offer = "WindowsServer"
+  sku = "2019-Datacenter"
+  version = "latest"
 }  
   
   
