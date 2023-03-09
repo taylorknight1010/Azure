@@ -2,6 +2,7 @@ resource "azurerm_network_interface" "nic" {
   name                = var.nic
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = var.tags
 
   ip_configuration {
     name                          = "internal"
@@ -17,6 +18,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   size                = var.vm.size
   admin_username      = "localaccount"
   admin_password      = "Testing123!"
+  tags                = var.tags
   network_interface_ids = [
     azurerm_network_interface.nic.id,
   ]
