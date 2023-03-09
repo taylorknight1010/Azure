@@ -24,15 +24,15 @@ resource "azurerm_windows_virtual_machine" "vm" {
   ]
 
   os_disk {
-    caching              = var.vm.cachine
-    storage_account_type = var.vm.disktype
+    caching              = var.vm.os_disk.cachine
+    storage_account_type = var.vm.os_disk.cachine.storage_account_type
   }
 
   source_image_reference {
-    publisher = var.vm.image.osprovider
-    offer     = var.vm.image.osoffer
-    sku       = var.vm.image.osoffer
-    version   = var.vm.image.version
+    publisher = var.vm.source_image_reference.publisher
+    offer     = var.vm.source_image_reference.offer
+    sku       = var.vm.source_image_reference.sku
+    version   = var.vm.source_image_reference.verison
   }
 }
 
