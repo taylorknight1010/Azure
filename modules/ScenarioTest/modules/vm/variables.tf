@@ -1,5 +1,11 @@
 variable "vm" {
-  type = any
+  type    = object({
+    id                  = string
+    location            = string
+    size                = string
+    os_disk             = map(string)
+    source_image_reference = map(string)
+  })
 }
 
 variable "nic" {
