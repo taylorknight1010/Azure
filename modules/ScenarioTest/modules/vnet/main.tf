@@ -3,6 +3,7 @@ resource "azurerm_virtual_network" "hubvnet" {
   address_space       = var.hubvnet.address_space
   location            = var.hubvnet.location
   resource_group_name = module.resource_group.resource_group_name
+  tags                = var.tags  
 }
 
 resource "azurerm_subnet" "coresubnet" {
