@@ -18,7 +18,7 @@ coresubnet = {
 }
 
 nic = {
-  name = "dc01-nic"
+  id = "dc01-nic"
   
 }
   
