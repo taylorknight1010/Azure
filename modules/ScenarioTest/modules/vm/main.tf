@@ -6,7 +6,7 @@ resource "azurerm_network_interface" "nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = var.coresubnet
+    subnet_id                     = var.coresubnet.id
     private_ip_address_allocation = "Dynamic"
   }
 }
