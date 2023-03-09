@@ -13,16 +13,16 @@ resource "azurerm_network_interface" "nic" {
 
 resource "azurerm_virtual_machine" "vm" {
   name                  = "${var.vm.id}"
-  location              = "${var.vm.location}"
-  size                  = "${var.vm.size}"
-  storage_account_type  = "${var.vm.storage_account_type}"
+  location              = var.location
+  size                  = "${var.size}"
+  storage_account_type  = "${var.storage_account_type}"
   tags                  = var.tags
 
   storage_os_disk {
     name              = "${var.vm.id}-osdisk"
-    caching           = "${var.vm.caching}"
+    caching           = "${var.caching}"
     create_option     = "FromImage"
-    managed_disk_type = "${var.vm.storage_account_type}"
+    managed_disk_type = "${var.storage_account_type}"
   }
 
   os_profile {
@@ -36,10 +36,10 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   source_image_reference {
-    publisher = "${var.vm.publisher}"
-    offer     = "${var.vm.offer}"
-    sku       = "${var.vm.sku}"
-    osversion   = "${var.vm.osversion}"
+    publisher = "${var.publisher}"
+    offer     = "${var.offer}"
+    sku       = "${var.sku}"
+    osversion   = "${var.osversion}"
   }
 
   network_interface_ids = ["${azurerm_network_interface.nic.id}"]
