@@ -7,11 +7,11 @@ variable "vm" {
 }
 
 variable "hubvnet" {
-  type = any
+  type = string
 }
 
 variable "coresubnet" {
-  type = any
+  type = string
 }
 
 
