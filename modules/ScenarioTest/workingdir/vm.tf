@@ -7,7 +7,7 @@ module "vm" {
   resource_group_name = module.rg.resource_group_name
   coresubnet = module.vnet.coresubnet
   hubvnet = module.vnet.hubvnet
-  publisher = local.vm.source_image_reference.publisher
+  publisher = local.vm.source_image_reference
   offer     = local.vm.source_image_reference.offer
   sku       = local.vm.source_image_reference.sku
   osversion   = local.vm.source_image_reference.verison  
