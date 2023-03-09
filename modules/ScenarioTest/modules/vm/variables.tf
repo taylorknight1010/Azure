@@ -7,7 +7,6 @@ variable "vm" {
     os_disk             = map(string)
     source_image_reference = map(string)
   })
-  default = local.vm
 }
 
 variable "nic" {
