@@ -1,5 +1,14 @@
 variable "vm" {
-  type = any
+  type = object({
+    id                  = string
+    publisher           = string
+    offer               = string
+    sku                 = string
+    caching             = string
+    storage_account_type = string
+    size                = string
+    osversion           = string
+  })
 }
 
 variable "nic" {
