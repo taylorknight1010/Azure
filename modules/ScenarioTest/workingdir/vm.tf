@@ -1,7 +1,7 @@
 module "vm" {
   source = "../modules/vm"
   
-  nic = local.hubvnet
+  nic = local.nic
   location = local.location
   vm = local.coresubnet
   resource_group_name = module.rg.resource_group_name
