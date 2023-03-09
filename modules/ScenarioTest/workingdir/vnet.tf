@@ -1,11 +1,11 @@
 module "vnet" {
   source = "../modules/vnet"
   
-  hubvnet = local.hubvnet
-  location = local.location
-  coresubnet = local.coresubnet
+  hubvnet = var.hubvnet
+  location = var.location
+  coresubnet = var.coresubnet
   resource_group_name = module.rg.resource_group_name
-  address_space = local.hubvnet.address_space
+  address_space = var.hubvnet.address_space
   
   tags = {
     Terraform   = "true"
