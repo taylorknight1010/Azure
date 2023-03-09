@@ -1,9 +1,9 @@
 variable "hubvnet" {
-  type = map(string)
+  type = any
 }
 
 variable "coresubnet" {
-  type = map(string)
+  type = any
 }
 
 variable "location" {
@@ -18,6 +18,6 @@ variable "tags" {
 
 variable "resource_group_name" {
   description = "The location which should be used for this virtual network."
-  type = string
+  type = any
 }
 
