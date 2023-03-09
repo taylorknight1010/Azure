@@ -6,6 +6,10 @@ variable "vm" {
   type = any
 }
 
+variable "hubvnet" {
+  type = any
+}
+
 variable "coresubnet" {
   type = any
 }
