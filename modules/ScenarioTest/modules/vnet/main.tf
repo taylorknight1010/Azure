@@ -6,7 +6,7 @@ resource "azurerm_virtual_network" "hubvnet" {
 }
 
 resource "azurerm_subnet" "coresubnet" {
-  name                 = "coresubnet"
+  name                 = var.coresubnet.id
   resource_group_name  = module.resource_group.resource_group_name
   virtual_network_name = azurerm_virtual_network.hubvnet.name
   address_prefixes     = var.coresubnet.address_prefixes
