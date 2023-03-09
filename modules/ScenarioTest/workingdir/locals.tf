@@ -23,7 +23,7 @@ nic = {
 }
   
 vm = {
-  name = "DC01"
+  id = "DC01"
   
   disktype = ["10.0.0.0/8"] 
   location = "uksouth"
