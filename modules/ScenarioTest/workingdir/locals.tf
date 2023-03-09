@@ -17,6 +17,11 @@ coresubnet = {
   address_prefixes = ["10.245.250.0/24"]
 }
 
+nic = {
+  name = "dc01-nic"
+  
+}
+  
 vm = {
   name = "DC01"
   cachine = "ReadWrite"
