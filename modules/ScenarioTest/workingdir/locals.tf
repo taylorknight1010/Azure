@@ -17,6 +17,22 @@ coresubnet = {
   address_prefixes = ["10.245.250.0/24"]
 }
 
+vm = {
+  name = DC01
+  cachine = "ReadWrite"
+  disktype = ["10.0.0.0/8"] 
+  location = "uksouth"
+  size = "Standard_LRS"
+  image = {
+    osprovider = "MicrosoftWindowsServer"
+    osoffer = "WindowsServer"
+    ossku = "2019-Datacenter"
+    version = "latest"
+    
+  }
+}  
+  
+  
 vm_names = {
   DC01 = { 
     ip_address = "10.245.100.10"
