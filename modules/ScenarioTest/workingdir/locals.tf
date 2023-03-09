@@ -18,7 +18,7 @@ coresubnet = {
 }
 
 vm = {
-  name = DC01
+  name = "DC01"
   cachine = "ReadWrite"
   disktype = ["10.0.0.0/8"] 
   location = "uksouth"
