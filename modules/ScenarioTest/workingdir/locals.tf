@@ -24,16 +24,19 @@ nic = {
   
 vm = {
   name = "DC01"
-  cachine = "ReadWrite"
+  
   disktype = ["10.0.0.0/8"] 
   location = "uksouth"
-  size = "Standard_LRS"
-  image = {
-    osprovider = "MicrosoftWindowsServer"
-    osoffer = "WindowsServer"
-    ossku = "2019-Datacenter"
+  size = "Standard_B1ls"
+  os_disk = {
+    cachine = "ReadWrite"
+    storage_account_type = "Standard_LRS"    
+  }
+  source_image_reference = {
+    publisher = "MicrosoftWindowsServer"
+    offer = "WindowsServer"
+    sku = "2019-Datacenter"
     version = "latest"
-    
   }
 }  
   
