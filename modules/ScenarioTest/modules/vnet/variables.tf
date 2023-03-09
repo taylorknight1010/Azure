@@ -6,6 +6,10 @@ variable "coresubnet" {
   type = any
 }
 
+variable "address_space" {
+  type = list(string)
+}
+
 variable "location" {
   description = "The location which should be used for this virtual network."
   type = string
