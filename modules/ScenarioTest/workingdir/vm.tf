@@ -10,7 +10,7 @@ module "vm" {
   publisher = local.vm.source_image_reference.publisher
   offer     = local.vm.source_image_reference.offer
   sku       = local.vm.source_image_reference.sku
-  version   = local.vm.source_image_reference.verison  
+  osversion   = local.vm.source_image_reference.verison  
   caching              = local.vm.os_disk.caching
   storage_account_type = local.vm.os_disk.storage_account_type  
   size                = local.vm.size
