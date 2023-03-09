@@ -1,5 +1,5 @@
 resource "azurerm_network_interface" "nic" {
-  name                = var.nic
+  name                = var.nic.id
   location            = var.location
   resource_group_name = var.resource_group_name
   tags                = var.tags
