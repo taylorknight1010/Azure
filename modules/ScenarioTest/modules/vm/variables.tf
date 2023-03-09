@@ -1,8 +1,16 @@
-variable "nic" {
-  type = any
+variable "vm" {
+  type    = object({
+    id                  = string
+    disktype            = list(string)
+    location            = string
+    size                = string
+    os_disk             = map(string)
+    source_image_reference = map(string)
+  })
+  default = local.vm
 }
 
-variable "vm" {
+variable "nic" {
   type = any
 }
 
