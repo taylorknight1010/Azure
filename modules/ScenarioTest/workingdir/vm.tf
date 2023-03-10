@@ -1,20 +1,38 @@
 module "vm" {
   source = "../modules/vm"
-  
-  nic = var.nic
+  rg_name = module.rg.resource_group_name
   location = var.location
-  vm = var.vm
-  resource_group_name = module.rg.resource_group_name
-  coresubnet = module.vnet.coresubnet
-  hubvnet = module.vnet.hubvnet
-  publisher = var.vm.publisher
-  offer     = var.vm.offer
-  sku       = var.vm.sku
-  caching              = var.vm.caching
-  storage_account_type = var.vm.storage_account_type  
-  size                = var.vm.size
-  osversion = var.osversion
-  
+
+  hubvnet = {
+    id = module.vnet.hubvnet_id
+    address_space = module.vnet.hubvnet.address_space
+    location = var.location
+  }
+
+  coresubnet = {
+    id = module.vnet.coresubnet.id
+    address_prefixes = module.vnet.coresubnet.address_prefixes
+  }
+
+  nic = {
+    id = var.nic_id
+  }
+
+  vm = {
+    id = var.vm_id
+    location = var.location
+    size = var.vm_size
+    caching = var.vm_caching
+    storage_account_type = var.vm_storage_account_type
+    publisher = var.vm_publisher
+    offer = var.vm_offer
+    sku = var.vm_sku
+    osversion = var.vm_osversion
+  }
+
+  vm_names = var.vm_names
+}
+ 
   tags = {
     Terraform   = "true"
     Environment = "prod"
