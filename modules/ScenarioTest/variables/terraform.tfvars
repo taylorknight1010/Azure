@@ -9,7 +9,7 @@ coresubnet_address_prefixes = ["10.245.250.0/24"]
 
 nic = "dc01-nic"
 
-vm_id = "DC01"
+vm = "DC01"
 vm_size = "Standard_B1ls"
 vm_caching = "ReadWrite"
 vm_storage_account_type = "Standard_LRS"
