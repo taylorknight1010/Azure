@@ -16,11 +16,19 @@ module "vm" {
 
   nic = {
     id = var.nic_id
+    tags = {
+    Terraform   = "true"
+    Environment = "prod"
+  }
   }
 
   vm = {
     id = var.vm_id
     location = var.location
+    tags = {
+    Terraform   = "true"
+    Environment = "prod"
+  }
     size = var.vm_size
     caching = var.vm_caching
     storage_account_type = var.vm_storage_account_type
@@ -33,8 +41,5 @@ module "vm" {
   vm_names = var.vm_names
 }
  
-  tags = {
-    Terraform   = "true"
-    Environment = "prod"
-  }
+
 }
