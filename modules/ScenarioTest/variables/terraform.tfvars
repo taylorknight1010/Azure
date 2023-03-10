@@ -20,7 +20,7 @@ vm_osversion = "latest"
 
 vm_names = {
   DC01 = {
-    ip_address = "10.245.100.10
+    ip_address = "10.245.100.10"
 }
 }
 
