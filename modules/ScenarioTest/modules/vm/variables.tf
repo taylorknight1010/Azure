@@ -28,7 +28,7 @@ variable "nic" {
   description = "ID of the NIC."
 }
 
-variable "vm_id" {
+variable "vm" {
   description = "ID of the virtual machine."
 }
 
