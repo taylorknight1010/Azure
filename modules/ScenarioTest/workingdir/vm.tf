@@ -13,7 +13,10 @@ module "vm" {
   sku = var.sku
   osversion = var.osversion
   offer = var.offer
-  tags = var.tags
+  tags = {
+    Terraform   = "true"
+    Environment = "prod"
+  }
 
     }
  
