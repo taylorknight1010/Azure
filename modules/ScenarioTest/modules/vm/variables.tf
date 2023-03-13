@@ -55,10 +55,3 @@ variable "managed_disk_type" {
   description = "Map of virtual machine names to their configurations."
 }
 
-
-
-
-
-
-}
-
