@@ -1,4 +1,8 @@
-variable "rg_name" {
+variable "resource_group_name" {
+  description = "Name of the resource group."
+}
+
+variable "tags" {
   description = "Name of the resource group."
 }
 
@@ -24,47 +28,54 @@ variable "coresubnet_address_prefixes" {
   type = list(string)
 }
 
-variable "nic" {
+variable "nic_id" {
   description = "ID of the NIC."
 }
 
-variable "vm" {
+variable "coresubnet" {
   description = "ID of the virtual machine."
 }
 
-variable "vm_size" {
+variable "size" {
   description = "Size of the virtual machine."
 }
 
-variable "vm_caching" {
+variable "caching" {
   description = "Caching type for the virtual machine OS disk."
 }
 
-variable "vm_storage_account_type" {
+variable "storage_account_type" {
   description = "Storage account type for the virtual machine OS disk."
 }
 
-variable "vm_publisher" {
+variable "publisher" {
   description = "Publisher of the virtual machine image."
 }
 
-variable "vm_offer" {
+variable "offer" {
   description = "Offer of the virtual machine image."
 }
 
-variable "vm_sku" {
+variable "sku" {
   description = "SKU of the virtual machine image."
 }
 
-variable "vm_osversion" {
+variable "osversion" {
   description = "Operating system version of the virtual machine image."
 }
 
 variable "vm_names" {
   description = "Map of virtual machine names to their configurations."
-  type = map(object({
-    ip_address = string
-    sku = string
-    data_disk = bool
-  }))
 }
+
+variable "managed_disk_type" {
+  description = "Map of virtual machine names to their configurations."
+}
+
+
+
+
+
+
+}
+
