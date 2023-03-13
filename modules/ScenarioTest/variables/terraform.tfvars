@@ -18,3 +18,8 @@ offer = "WindowsServer"
 sku = "2019-Datacenter"
 osversion = "latest"
 
+tags = {
+    Terraform   = "true"
+    Environment = "prod"
+  }
+
