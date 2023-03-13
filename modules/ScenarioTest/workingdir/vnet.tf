@@ -6,6 +6,7 @@ module "vnet" {
   coresubnet = var.coresubnet
   resource_group_name = module.rg.resource_group_name
   address_space = var.address_space
+  address_prefixes = var.address_prefixes
   
   tags = {
     Terraform   = "true"
