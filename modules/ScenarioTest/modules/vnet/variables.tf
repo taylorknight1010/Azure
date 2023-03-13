@@ -7,7 +7,9 @@ variable "coresubnet" {
 }
 
 variable "address_space" {
-  type = list(string)
+}
+
+variable "address_prefixes" {
 }
 
 variable "location" {
@@ -24,4 +26,3 @@ variable "resource_group_name" {
   description = "The location which should be used for this virtual network."
   type = any
 }
-
