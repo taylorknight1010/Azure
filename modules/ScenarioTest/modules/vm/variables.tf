@@ -10,23 +10,6 @@ variable "location" {
   description = "Location for all resources."
 }
 
-variable "hubvnet_id" {
-  description = "ID of the hub virtual network."
-}
-
-variable "hubvnet_address_space" {
-  description = "Address space of the hub virtual network."
-  type = list(string)
-}
-
-variable "coresubnet_id" {
-  description = "ID of the core subnet."
-}
-
-variable "coresubnet_address_prefixes" {
-  description = "Address prefixes of the core subnet."
-  type = list(string)
-}
 
 variable "nic_id" {
   description = "ID of the NIC."
@@ -36,7 +19,7 @@ variable "coresubnet" {
   description = "ID of the virtual machine."
 }
 
-variable "size" {
+variable "vm_size" {
   description = "Size of the virtual machine."
 }
 
