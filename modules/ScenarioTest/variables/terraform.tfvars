@@ -9,7 +9,10 @@ address_prefixes = ["10.245.250.0/24"]
 
 nic_id = "dc01-nic"
 managed_disk_type = "Standard_LRS"
-vm_names = ["dc01", "dc02"]
+vm_names = {
+  vm1 = "dc01",
+  vm2 = "dc02",
+}
 vm_size = "Standard_B1ls"
 caching = "ReadWrite"
 storage_account_type = "Standard_LRS"
