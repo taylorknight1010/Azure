@@ -32,7 +32,7 @@ resource "azurerm_resource_group" "rg" {
 resource "azurerm_private_dns_zone" "dns_zone" {
   for_each = {
     for domain in var.domain_list :
-    for i in range(length(var.region_list))
+    for i in range(length(var.region_list)) :
     "${domain}-${var.region_list[i]}" => azurerm_resource_group.rg[i].name
   }
 
