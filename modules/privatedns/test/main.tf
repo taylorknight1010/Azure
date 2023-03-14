@@ -21,14 +21,12 @@ variable "region_list" {
   type = list(string)
 }
 
-# Create resource groups in each region
 resource "azurerm_resource_group" "rg" {
   count    = length(var.region_list)
   name     = "${var.region_list[count.index]}-rg"
   location = var.region_list[count.index]
 }
 
-# Create private DNS zones in each resource group for each domain
 resource "azurerm_private_dns_zone" "dns_zone" {
   for_each = {
     for domain in var.domain_list :
@@ -38,4 +36,16 @@ resource "azurerm_private_dns_zone" "dns_zone" {
 
   name                = each.key
   resource_group_name = each.value
+
+  tags = {
+    Environment = "Production"
+  }
+
+  private_dns_zone_group {
+    name = "default"
+  }
+
+  depends_on = [
+    azurerm_resource_group.rg
+  ]
 }
