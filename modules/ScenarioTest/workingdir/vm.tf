@@ -1,5 +1,13 @@
 module "vm" {
   source = "../modules/vm"
+  
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = module.vnet.coresubnet
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id           = null
+  }
+  
   resource_group_name = module.rg.resource_group_name
   location = var.location
   nic_id = var.nic_id
