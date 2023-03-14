@@ -5,6 +5,6 @@ tags = {
     Environment = "prod"
   }
 dns_zone = {
-  "privatelink.blob.windows.core.net",
-  "privatelink.file.windows.core.net"
+  privatelink.blob.windows.core.net = "blob"
+  privatelink.file.windows.core.net = "file"
 }
