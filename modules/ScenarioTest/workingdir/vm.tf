@@ -5,7 +5,7 @@ module "vm" {
   nic_id = var.nic_id
   coresubnet = module.vnet.coresubnet
   vm_names = var.vm_names
-  foreach = var.vm_size
+  for_each = var.vm_size
   vm_size = each.value
   storage_account_type = var.storage_account_type
   caching = var.caching
