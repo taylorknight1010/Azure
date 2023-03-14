@@ -1,7 +1,10 @@
 module "privatedns" {
   source = "../modules/privatedns"
   
-  resource_group_name = module.rg.resource_group_name
+   resource_group_name = [
+    module.rg.resource_group_name["uksouth"],
+    module.rg.resource_group_name["ukwest"]
+  ]
   tags = {
     Terraform   = "true"
     Environment = "prod"
