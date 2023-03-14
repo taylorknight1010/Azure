@@ -1,8 +1,12 @@
 module "rg" {
   source = "../modules/rg"
   
-  resource_group_name = var.resource_group_name
-  location = var.location
+  for_each = {
+    uksouth = "uksouth",
+    ukwest = "ukwest"
+  }
+  resource_group_name = each.key
+  location = each.value
   
   tags = {
     Terraform   = "true"
