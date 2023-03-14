@@ -1,6 +1,6 @@
 resource_group_name = {
-  "rg-privatednszone-uks" = "rg-privatednszone-uks"
-  "rg-privatednszone-ukw" = "rg-privatednszone-ukw"
+  "uksouth" = "rg-privatednszone-uks"
+  "ukwest" = "rg-privatednszone-ukw"
 }
 location = {
   "uksouth" = "uksouth"
