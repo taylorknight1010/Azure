@@ -6,7 +6,7 @@ module "privatedns" {
     Terraform   = "true"
     Environment = "prod"
   }
-  for_each = dns_zone
+  for_each = var.dns_zone
   dns_zone = each.key
     
 }
