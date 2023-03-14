@@ -1,5 +1,11 @@
-resource_group_name = "rg-privatednszone-uks"
-location = "uksouth"
+resource_group_name = {
+  "rg-privatednszone-uks" = "rg-privatednszone-uks"
+  "rg-privatednszone-ukw" = "rg-privatednszone-ukw"
+}
+location = {
+  "uksouth" = "uksouth"
+  "ukwest" = "ukwest"
+}
 tags = {
     Terraform   = "true"
     Environment = "prod"
