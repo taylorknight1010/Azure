@@ -1,24 +1,25 @@
 # Install Microsoft Graph PowerShell: Install-Module Microsoft.Graph -Scope CurrentUser
 # Install Azure PowerShell: Install-Module Az -Scope CurrentUser
-# Authenticate to Microsoft Graph and Azure: Connect-MgGraph -TenantId "d85302c6-7818-4c30-89c8-b6edb4fb2205" -Scopes "Group.ReadWrite.All", "Directory.ReadWrite.All" and Connect-AzAccount -TenantId d85302c6-7818-4c30-89c8-b6edb4fb2205 -UseDeviceAuthentication
+# Authenticate to Microsoft Graph and Azure: Connect-MgGraph -TenantId "tenant-id" -Scopes "Group.ReadWrite.All", "Directory.ReadWrite.All" and Connect-AzAccount -TenantId d85302c6-7818-4c30-89c8-b6edb4fb2205 -UseDeviceAuthentication
 import-module Microsoft.Graph.Groups
 import-module Microsoft.Graph.Users
 import-module Microsoft.Graph.Identity.Governance
 import-module Microsoft.Graph.Identity.DirectoryManagement
 
-connect-mggraph -TenantId "d85302c6-7818-4c30-89c8-b6edb4fb2205" -UseDeviceCode -Scopes "Group.ReadWrite.All", "User.ReadWrite.All", "PrivilegedAssignmentSchedule.ReadWrite.AzureADGroup", "Domain.Read.All", "RoleManagementPolicy.ReadWrite.AzureADGroup", "PrivilegedEligibilitySchedule.ReadWrite.AzureADGroup","PrivilegedAccess.ReadWrite.AzureADGroup","PrivilegedEligibilitySchedule.Remove.AzureADGroup", "RoleManagement.ReadWrite.Directory"
+# connect-mggraph -TenantId "tenant-id" -UseDeviceCode -Scopes "Group.ReadWrite.All", "User.ReadWrite.All", "PrivilegedAssignmentSchedule.ReadWrite.AzureADGroup", "Domain.Read.All", "RoleManagementPolicy.ReadWrite.AzureADGroup", "PrivilegedEligibilitySchedule.ReadWrite.AzureADGroup","PrivilegedAccess.ReadWrite.AzureADGroup","PrivilegedEligibilitySchedule.Remove.AzureADGroup", "RoleManagement.ReadWrite.Directory"
 # Steps required to carry out end to end #
 
-### SRE Team ###
+### IT ###
 # Step 1 - Create Entra ID Groups
-$teamName = "SRE"
-$groupName01 = "SG_SRE_TEAM_TEST"
-$pimGroupName01 = "PAG_SRE_PROD_TEST"
-$pimGroupName02 = "PAG_SRE_NON_PROD_TEST"
+$teamName = "IT Team"
+$groupName01 = "SG_IT_TEAM"
+$pimGroupName01 = "PAG_IT_PROD"
+$pimGroupName02 = "PAG_IT_NON_PROD"
 
 $g01 = Get-MgGroup -Filter ("DisplayName eq '{0}'" -f $groupName01)
+
 if ($null -eq $g01) {
-    Write-Verbose -Message "$($g01.DisplayName) group doesn't exist - now creating..." -Verbose
+    Write-Verbose -Message "$groupName01 group doesn't exist - now creating..." -Verbose
     $params = @{
         DisplayName = $($groupName01)
         MailEnabled = $False
@@ -29,13 +30,13 @@ if ($null -eq $g01) {
     }
     $g01 = New-MgGroup @params
 } else {
-    Write-Verbose -Message "$($g01.DisplayName) group already exists" -Verbose
+    Write-Verbose -Message "$groupName01 group already exists" -Verbose
 }
 
 $pg01 = Get-MgGroup -Filter ("DisplayName eq '{0}'" -f $pimGroupName01)
 
 if ($null -eq $pg01) {
-    Write-Verbose -Message "$($g01.DisplayName) group doesn't exist - now creating..." -Verbose
+    Write-Verbose -Message "$pimGroupName01 group doesn't exist - now creating..." -Verbose
     $params = @{
         DisplayName = $($pimGroupName01)
         MailEnabled = $False
@@ -46,13 +47,14 @@ if ($null -eq $pg01) {
     }
     $pg01 = New-MgGroup @params
 } else {
-    Write-Verbose -Message "$($pg01.DisplayName) group already exists" -Verbose
+    Write-Verbose -Message "$pimGroupName01 group already exists" -Verbose
 }
+
 
 $pg02 = Get-MgGroup -Filter ("DisplayName eq '{0}'" -f $pimGroupName02)
 
 if ($null -eq $pg02) {
-    Write-Verbose -Message "$($g01.DisplayName) group doesn't exist - now creating..." -Verbose
+    Write-Verbose -Message "$pimGroupName02 group doesn't exist - now creating..." -Verbose
     $params = @{
         DisplayName = $($pimGroupName02)
         MailEnabled = $False
@@ -63,7 +65,7 @@ if ($null -eq $pg02) {
     }
     $pg02 = New-MgGroup @params
 } else {
-    Write-Verbose -Message "$($pg02.DisplayName) group already exists" -Verbose
+    Write-Verbose -Message "$pimGroupName02 group already exists" -Verbose
 }
 
 # Allow Never Expire Eligible assignment on PAG
@@ -130,6 +132,165 @@ Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $unifiedR
     Write-Verbose -Message "$($pg02.DisplayName) PAG Member role already set to allow never expire eligible assignment" -Verbose
 }
 
+# Set Activation maximum duration to 2 hours on PAG
+# Prod PAG
+$p = Get-MgPolicyRoleManagementPolicyAssignment -Filter $("scopeId eq '{0}' and scopeType eq 'Group' and RoleDefinitionId eq 'member'" -f $pg01.Id)
+$unifiedRoleManagementPolicyId = $p.PolicyId
+$unifiedRoleManagementPolicyRuleId = "Expiration_EndUser_Assignment"
+
+$currentRule = Get-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $unifiedRoleManagementPolicyId -UnifiedRoleManagementPolicyRuleId $unifiedRoleManagementPolicyRuleId
+
+if ($currentRule.AdditionalProperties.maximumDuration -ne "PT2H") {
+    Write-Verbose -Message "$($pg01.DisplayName) PAG Member role is not set to 2 hours activation. Now changing Activation maximum duration to 2 hours..." -Verbose
+$params = @{
+    "@odata.type" = "#microsoft.graph.unifiedRoleManagementPolicyExpirationRule"
+    id = "Expiration_EndUser_Assignment"
+    target = @{
+      "@odata.type" = "microsoft.graph.unifiedRoleManagementPolicyRuleTarget"
+    }
+    isExpirationRequired = $true
+    maximumDuration = "PT2H"
+}
+Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $unifiedRoleManagementPolicyId -UnifiedRoleManagementPolicyRuleId $unifiedRoleManagementPolicyRuleId -BodyParameter $params
+} else {
+    Write-Verbose -Message "$($pg01.DisplayName) PAG Member role already has Activation maximum duration set to 2 hours. Skipping this step..." -Verbose
+}
+
+# Non-Prod PAG
+$p = Get-MgPolicyRoleManagementPolicyAssignment -Filter $("scopeId eq '{0}' and scopeType eq 'Group' and RoleDefinitionId eq 'member'" -f $pg02.Id)
+$unifiedRoleManagementPolicyId = $p.PolicyId
+$unifiedRoleManagementPolicyRuleId = "Expiration_EndUser_Assignment"
+
+$currentRule = Get-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $unifiedRoleManagementPolicyId -UnifiedRoleManagementPolicyRuleId $unifiedRoleManagementPolicyRuleId
+
+if ($currentRule.AdditionalProperties.maximumDuration -ne "PT2H") {
+    Write-Verbose -Message "$($pg02.DisplayName) PAG Member role is not set to 2 hours activation. Now changing Activation maximum duration to 2 hours..." -Verbose
+$params = @{
+    "@odata.type" = "#microsoft.graph.unifiedRoleManagementPolicyExpirationRule"
+    id = "Expiration_EndUser_Assignment"
+    target = @{
+      "@odata.type" = "microsoft.graph.unifiedRoleManagementPolicyRuleTarget"
+    }
+    isExpirationRequired = $true
+    maximumDuration = "PT2H"
+}
+Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $unifiedRoleManagementPolicyId -UnifiedRoleManagementPolicyRuleId $unifiedRoleManagementPolicyRuleId -BodyParameter $params
+} else {
+    Write-Verbose -Message "$($pg02.DisplayName) PAG Member role already has Activation maximum duration set to 2 hours. Skipping this step..." -Verbose
+}
+
+# Enable approval required on PAGs
+# Prod PAG
+$p = Get-MgPolicyRoleManagementPolicyAssignment -Filter $("scopeId eq '{0}' and scopeType eq 'Group' and RoleDefinitionId eq 'member'" -f $pg01.Id)
+$unifiedRoleManagementPolicyId = $p.PolicyId
+$unifiedRoleManagementPolicyRuleId = "Approval_EndUser_Assignment"
+$approverGroup1 = Get-MgGroup -Filter ("DisplayName eq '{0}'" -f "customerName Escalation Group")
+$approverGroup2 = Get-MgGroup -Filter ("DisplayName eq '{0}'" -f "SG_IT_TEAM")
+
+$currentRule = Get-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $unifiedRoleManagementPolicyId -UnifiedRoleManagementPolicyRuleId $unifiedRoleManagementPolicyRuleId
+
+if ($null -eq $currentRule.AdditionalProperties.setting.approvalStages.primaryApprovers) {
+    Write-Verbose -Message "$($pg01.DisplayName) PAG Member role does not have any approvers set. Now adding approvers..." -Verbose
+    $params = @{
+        "@odata.type" = "#microsoft.graph.unifiedRoleManagementPolicyApprovalRule"
+        id = "Approval_EndUser_Assignment"
+        target = @{
+            "@odata.type" = "microsoft.graph.unifiedRoleManagementPolicyRuleTarget"
+            caller = "EndUser"
+            operations = @("All")
+            level = "Assignment"
+            inheritableSettings = @()
+            enforcedSettings = @()
+        }
+        setting = @{
+            "@odata.type" = "microsoft.graph.approvalSettings"
+            isApprovalRequired = $true
+            isApprovalRequiredForExtension = $false
+            isRequestorJustificationRequired = $true
+            approvalMode = "SingleStage"
+            approvalStages = @(
+                @{
+                    "@odata.type" = "microsoft.graph.unifiedApprovalStage"
+                    approvalStageTimeOutInDays = 1
+                    isApproverJustificationRequired = $true
+                    escalationTimeInMinutes = 0 # Set appropriate value or leave it as 0 if no escalation
+                    primaryApprovers = @(
+                        @{
+                            "@odata.type" = "#microsoft.graph.groupMembers"
+                            id = $approverGroup1.Id
+                        }
+                        @{
+                            "@odata.type" = "#microsoft.graph.groupMembers"
+                            id = $approverGroup2.Id
+                        }                        
+                    )
+                    isEscalationEnabled = $false
+                    escalationApprovers = @()
+                }
+            )
+        }
+    }
+    
+    Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $unifiedRoleManagementPolicyId -UnifiedRoleManagementPolicyRuleId $unifiedRoleManagementPolicyRuleId -BodyParameter $params    
+} else {
+    Write-Verbose -Message "$($pg01.DisplayName) PAG Member role already has approvers set. Skipping this step..." -Verbose
+}
+
+# Non-Prod PAG
+$p = Get-MgPolicyRoleManagementPolicyAssignment -Filter $("scopeId eq '{0}' and scopeType eq 'Group' and RoleDefinitionId eq 'member'" -f $pg02.Id)
+$unifiedRoleManagementPolicyId = $p.PolicyId
+$unifiedRoleManagementPolicyRuleId = "Approval_EndUser_Assignment"
+$approverGroup1 = Get-MgGroup -Filter ("DisplayName eq '{0}'" -f "customerName Escalation Group")
+$approverGroup2 = Get-MgGroup -Filter ("DisplayName eq '{0}'" -f "SG_IT_TEAM")
+
+$currentRule = Get-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $unifiedRoleManagementPolicyId -UnifiedRoleManagementPolicyRuleId $unifiedRoleManagementPolicyRuleId
+
+if ($null -eq $currentRule.AdditionalProperties.setting.approvalStages.primaryApprovers) {
+    Write-Verbose -Message "$($pg02.DisplayName) PAG Member role does not have any approvers set. Now adding approvers..." -Verbose
+    $params = @{
+        "@odata.type" = "#microsoft.graph.unifiedRoleManagementPolicyApprovalRule"
+        id = "Approval_EndUser_Assignment"
+        target = @{
+            "@odata.type" = "microsoft.graph.unifiedRoleManagementPolicyRuleTarget"
+            caller = "EndUser"
+            operations = @("All")
+            level = "Assignment"
+            inheritableSettings = @()
+            enforcedSettings = @()
+        }
+        setting = @{
+            "@odata.type" = "microsoft.graph.approvalSettings"
+            isApprovalRequired = $true
+            isApprovalRequiredForExtension = $false
+            isRequestorJustificationRequired = $true
+            approvalMode = "SingleStage"
+            approvalStages = @(
+                @{
+                    "@odata.type" = "microsoft.graph.unifiedApprovalStage"
+                    approvalStageTimeOutInDays = 1
+                    isApproverJustificationRequired = $true
+                    escalationTimeInMinutes = 0 # Set appropriate value or leave it as 0 if no escalation
+                    primaryApprovers = @(
+                        @{
+                            "@odata.type" = "#microsoft.graph.groupMembers"
+                            id = $approverGroup1.Id
+                        }
+                        @{
+                            "@odata.type" = "#microsoft.graph.groupMembers"
+                            id = $approverGroup2.Id
+                        }                        
+                    )
+                    isEscalationEnabled = $false
+                    escalationApprovers = @()
+                }
+            )
+        }
+    }
+    
+    Update-MgPolicyRoleManagementPolicyRule -UnifiedRoleManagementPolicyId $unifiedRoleManagementPolicyId -UnifiedRoleManagementPolicyRuleId $unifiedRoleManagementPolicyRuleId -BodyParameter $params    
+} else {
+    Write-Verbose -Message "$($pg02.DisplayName) PAG Member role already has approvers set. Skipping this step..." -Verbose
+}
 
 # Assign Base group to PAGs as eligible never expire
 # Prod PAG
@@ -184,9 +345,81 @@ $roleAssignment = New-MgRoleManagementDirectoryRoleAssignment -BodyParameter $pa
     Write-Verbose -Message "$($g01.DisplayName) group is already assigned to $($roleDefinition.DisplayName)" -Verbose
 }
 
+# User Administrator #
+$roleDefinition = Get-MgRoleManagementDirectoryRoleDefinition -Filter "displayName eq 'User Administrator'"
+# Check if the assignment is already in place
+$existingAssignment = Get-MgRoleManagementDirectoryRoleAssignment |
+    Where-Object { $_.PrincipalId -eq $g01.Id -and $_.RoleDefinitionId -eq $roleDefinition.Id }
+
+if ($null -eq $existingAssignment) {   
+    Write-Verbose -Message "$($roleDefinition.DisplayName) not assigned to $($g01.DisplayName) group. Now assigning..." -Verbose     
+$params = @{
+    "directoryScopeId" = "/" 
+    "principalId" = $g01.Id
+    "roleDefinitionId" = $roleDefinition.Id
+ }
+$roleAssignment = New-MgRoleManagementDirectoryRoleAssignment -BodyParameter $params
+} else {
+    Write-Verbose -Message "$($g01.DisplayName) group is already assigned to $($roleDefinition.DisplayName)" -Verbose
+}
+
 # Prod PAG #
 # Application Administrator #
 $roleDefinition = Get-MgRoleManagementDirectoryRoleDefinition -Filter "displayName eq 'Application Administrator'"
+# Check if the assignment is already in place
+$existingAssignment = Get-MgRoleManagementDirectoryRoleAssignment |
+    Where-Object { $_.PrincipalId -eq $pg01.Id -and $_.RoleDefinitionId -eq $roleDefinition.Id }
+
+if ($null -eq $existingAssignment) {   
+    Write-Verbose -Message "$($roleDefinition.DisplayName) not assigned to $($pg01.DisplayName) group. Now assigning..." -Verbose  
+$params = @{
+    "directoryScopeId" = "/" 
+    "principalId" = $pg01.Id
+    "roleDefinitionId" = $roleDefinition.Id
+ }
+$roleAssignment = New-MgRoleManagementDirectoryRoleAssignment -BodyParameter $params
+} else {
+    Write-Verbose -Message "$($pg01.DisplayName) group is already assigned to $($roleDefinition.DisplayName)" -Verbose
+}
+
+# Privileged Authentication Administrator #
+$roleDefinition = Get-MgRoleManagementDirectoryRoleDefinition -Filter "displayName eq 'Privileged Authentication Administrator'"
+# Check if the assignment is already in place
+$existingAssignment = Get-MgRoleManagementDirectoryRoleAssignment |
+    Where-Object { $_.PrincipalId -eq $pg01.Id -and $_.RoleDefinitionId -eq $roleDefinition.Id }
+
+if ($null -eq $existingAssignment) {   
+    Write-Verbose -Message "$($roleDefinition.DisplayName) not assigned to $($pg01.DisplayName) group. Now assigning..." -Verbose  
+$params = @{
+    "directoryScopeId" = "/" 
+    "principalId" = $pg01.Id
+    "roleDefinitionId" = $roleDefinition.Id
+ }
+$roleAssignment = New-MgRoleManagementDirectoryRoleAssignment -BodyParameter $params
+} else {
+    Write-Verbose -Message "$($pg01.DisplayName) group is already assigned to $($roleDefinition.DisplayName)" -Verbose
+}
+
+# Security Administrator #
+$roleDefinition = Get-MgRoleManagementDirectoryRoleDefinition -Filter "displayName eq 'Security Administrator'"
+# Check if the assignment is already in place
+$existingAssignment = Get-MgRoleManagementDirectoryRoleAssignment |
+    Where-Object { $_.PrincipalId -eq $pg01.Id -and $_.RoleDefinitionId -eq $roleDefinition.Id }
+
+if ($null -eq $existingAssignment) {   
+    Write-Verbose -Message "$($roleDefinition.DisplayName) not assigned to $($pg01.DisplayName) group. Now assigning..." -Verbose  
+$params = @{
+    "directoryScopeId" = "/" 
+    "principalId" = $pg01.Id
+    "roleDefinitionId" = $roleDefinition.Id
+ }
+$roleAssignment = New-MgRoleManagementDirectoryRoleAssignment -BodyParameter $params
+} else {
+    Write-Verbose -Message "$($pg01.DisplayName) group is already assigned to $($roleDefinition.DisplayName)" -Verbose
+}
+
+# Privileged Role Administrator #
+$roleDefinition = Get-MgRoleManagementDirectoryRoleDefinition -Filter "displayName eq 'Privileged Role Administrator'"
 # Check if the assignment is already in place
 $existingAssignment = Get-MgRoleManagementDirectoryRoleAssignment |
     Where-Object { $_.PrincipalId -eq $pg01.Id -and $_.RoleDefinitionId -eq $roleDefinition.Id }
@@ -209,44 +442,58 @@ $roleAssignment = New-MgRoleManagementDirectoryRoleAssignment -BodyParameter $pa
 $prodMG = Get-AzManagementGroup | Where-Object { $_.DisplayName -like "Prod" }
 $nonprodMG = Get-AzManagementGroup | Where-Object { $_.DisplayName -like "Non-Prod" }
 $hubMG = Get-AzManagementGroup | Where-Object { $_.DisplayName -like "connectivity" }
-$customerMG = Get-AzManagementGroup | Where-Object { $_.DisplayName -like "customer" }
+$customerNameMG = Get-AzManagementGroup | Where-Object { $_.DisplayName -like "customerName" }
 
 ## Assign active never expire Azure Roles ##
 ## Base Group ##
+
 # Security Reader #
 $roleDefinition = Get-AzRoleDefinition -Name "Security Reader"
 # Check existing assignment
 $existingAssignment = get-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $prodMG.Id
 # assign loop
 if ($null -eq $existingAssignment) {   
-    Write-Verbose -Message "$($roleDefinition.Name) not assigned to $($g01.DisplayName) group at $($customerMG.DisplayName) MG scope. Now assigning..." -Verbose  
-New-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $customerMG.Id
+    Write-Verbose -Message "$($roleDefinition.Name) not assigned to $($g01.DisplayName) group at $($customerNameMG.DisplayName) MG scope. Now assigning..." -Verbose  
+New-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $customerNameMG.Id
 } else {
-    Write-Verbose -Message "$($g01.DisplayName) group is already assigned to $($roleDefinition.Name) at $($customerMG.DisplayName) MG scope" -Verbose
+    Write-Verbose -Message "$($g01.DisplayName) group is already assigned to $($roleDefinition.Name) at $($customerNameMG.DisplayName) MG scope" -Verbose
 }
+
 # Log Analytics Reader #
 $roleDefinition = Get-AzRoleDefinition -Name "Log Analytics Reader"
 # Check existing assignment
 $existingAssignment = get-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $prodMG.Id
 # assign loop
 if ($null -eq $existingAssignment) {   
-    Write-Verbose -Message "$($roleDefinition.Name) not assigned to $($g01.DisplayName) group at $($customerMG.DisplayName) MG scope. Now assigning..." -Verbose 
-New-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $customerMG.Id
+    Write-Verbose -Message "$($roleDefinition.Name) not assigned to $($g01.DisplayName) group at $($customerNameMG.DisplayName) MG scope. Now assigning..." -Verbose 
+New-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $customerNameMG.Id
 } else {
-    Write-Verbose -Message "$($g01.DisplayName) group is already assigned to $($roleDefinition.Name) at $($customerMG.DisplayName) MG scope" -Verbose
+    Write-Verbose -Message "$($g01.DisplayName) group is already assigned to $($roleDefinition.Name) at $($customerNameMG.DisplayName) MG scope" -Verbose
 }
+
 # Desktop Virtualization Power On Off Contributor #
 $roleDefinition = Get-AzRoleDefinition -Name "Desktop Virtualization Power On Off Contributor"
 # Check existing assignment
 $existingAssignment = get-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $prodMG.Id
 # assign loop
 if ($null -eq $existingAssignment) {   
-    Write-Verbose -Message "$($roleDefinition.Name) not assigned to $($g01.DisplayName) group at $($customerMG.DisplayName) MG scope. Now assigning..." -Verbose 
-New-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $customerMG.Id
+    Write-Verbose -Message "$($roleDefinition.Name) not assigned to $($g01.DisplayName) group at $($customerNameMG.DisplayName) MG scope. Now assigning..." -Verbose 
+New-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $customerNameMG.Id
 } else {
-    Write-Verbose -Message "$($g01.DisplayName) group is already assigned to $($roleDefinition.Name) at $($customerMG.DisplayName) MG scope" -Verbose
+    Write-Verbose -Message "$($g01.DisplayName) group is already assigned to $($roleDefinition.Name) at $($customerNameMG.DisplayName) MG scope" -Verbose
 }
 
+# Reader #
+$roleDefinition = Get-AzRoleDefinition -Name "Reader"
+# Check existing assignment
+$existingAssignment = get-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $prodMG.Id
+# assign loop
+if ($null -eq $existingAssignment) {   
+    Write-Verbose -Message "$($roleDefinition.Name) not assigned to $($g01.DisplayName) group at $($customerNameMG.DisplayName) MG scope. Now assigning..." -Verbose 
+New-AzRoleAssignment -ObjectId $g01.Id -RoleDefinitionName $roleDefinition.Name -Scope $customerNameMG.Id
+} else {
+    Write-Verbose -Message "$($g01.DisplayName) group is already assigned to $($roleDefinition.Name) at $($customerNameMG.DisplayName) MG scope" -Verbose
+}
 
 # PAGs (prod & non-prod)
 # Define the list of roles to assign
@@ -312,3 +559,7 @@ foreach ($roleName in $roleNames) {
         }
     }
 }
+
+##################################################################################################################################################################################
+##################################################################################################################################################################################
+
