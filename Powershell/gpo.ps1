@@ -32,8 +32,8 @@ Write-Verbose "Checking if DevOps Repo is already cloned" -Verbose
 $repo_clone_path = "C:\GPOBackups"
 if (-not (Test-Path -Path $repo_clone_path)) {
 Write-Verbose "Not cloned - continuing to clone repo..." -Verbose    
-$repoUrl = "dev.azure.com/customername/IT/_git/customername-template"
-$personalAccessToken =   # Ensure your PAT has repo access
+$repoUrl = "dev.azure.com/customerName-limited/IT/_git/customerName-managed-services-infra-template"
+$personalAccessToken = "PAT-token"  # Ensure your PAT has repo access
 $localRepoPath = "C:\GPOBackups"  # Path to clone the repo
 
 # Create local directory if not exists
@@ -299,8 +299,8 @@ $xmlFilePath = "\\${GPO_Domain}\SYSVOL\${GPO_Domain}\Policies\{${GpoLookup}}\Mac
 
 
 # Define the old value
-$backInfoExeOldPath = "\\customername.oncustomername.co.uk\SYSVOL\customername.oncustomername.co.uk\Policies\Scripts\backinfo\backinfo.exe"
-$backInfoIniOldPath = "\\customername.oncustomername.co.uk\SYSVOL\customername.oncustomername.co.uk\Policies\Scripts\backinfo\backinfo.ini"
+$backInfoExeOldPath = "\\customerName.oncustomerName.co.uk\SYSVOL\customerName.oncustomerName.co.uk\Policies\Scripts\backinfo\backinfo.exe"
+$backInfoIniOldPath = "\\customerName.oncustomerName.co.uk\SYSVOL\customerName.oncustomerName.co.uk\Policies\Scripts\backinfo\backinfo.ini"
 
 
 # Lookup new values
@@ -320,7 +320,7 @@ if (Test-Path $xmlFilePath) {
     # Write the updated content back to the XML file
     Set-Content -Path $xmlFilePath -Value $xmlContent
 
-    Write-Host "Successfully updated 'customername' to 'its' and old SIDs to new SIDs in the XML file."
+    Write-Host "Successfully updated 'customerName' to $CustomerName and old SIDs to new SIDs in the XML file."
 } else {
     Write-Host "The specified XML file does not exist."
 }
@@ -366,7 +366,7 @@ Write-Output "GPO '$GPOName' has been configured with the specified settings."
 ###################################################################################################################################################
 ###################################################################################################################################################
 
-# ### GPO Name - "All - Edge Policy" ### - Commented out as its not linked to anything in customername when this baseline was created - un-comment if needed.
+# ### GPO Name - "All - Edge Policy" ### - Commented out as its not linked to anything in customerName when this baseline was created - un-comment if needed.
 # # Need to automate storing \edge_default.xml for this gpo.
 
 # # Define variables
@@ -467,17 +467,17 @@ $RegistryPath5 = "HKCU\Software\Policies\Microsoft\Edge\PopupsAllowedForUrls"
 
 # Create an array of registry values to remove
 $oldRegistryValues = @(
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameuatkfx01.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameuatkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatkfx01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatapp01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatapp01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatweb01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatweb01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatssrs01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatssrs01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatssrs01/Reports' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameuatkfx01.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameuatkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatkfx01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatapp01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatapp01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatweb01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatweb01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatssrs01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatssrs01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatssrs01/Reports' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '1' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '2' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '9' },
@@ -552,36 +552,36 @@ $GpoLookup = (get-gpo -Name "beta - local groups").Id
 $xmlFilePath = "\\${GPO_Domain}\SYSVOL\${GPO_Domain}\Policies\{${GpoLookup}}\Machine\Preferences\Groups\Groups.xml"
 
 # Old name and new name for replacement
-$oldName = "customername"
+$oldName = "customerName"
 $newName = $CustomerName
 
 # Define the old SIDs
-$customernameBetaAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2054"
-$customernameBetaVMAdminsOldSID = "S-1-5-21-281918534-52708182-3417967371-1509"
-$customernameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
+$customerNameBetaAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2054"
+$customerNameBetaVMAdminsOldSID = "S-1-5-21-281918534-52708182-3417967371-1509"
+$customerNameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
 
 # Lookup new SIDs from AD
-$customernameBetaAccessSID = (Get-ADGroup -Identity "customername Beta Access").SID
-$customernameBetaVMAdminsSID = (Get-ADGroup -Identity "customername Beta VM Admins").SID
-$customernameITLocalAccountsSID = (Get-ADGroup -Identity "customername IT Local Accounts").SID
+$customerNameBetaAccessSID = (Get-ADGroup -Identity "customerName Beta Access").SID
+$customerNameBetaVMAdminsSID = (Get-ADGroup -Identity "customerName Beta VM Admins").SID
+$customerNameITLocalAccountsSID = (Get-ADGroup -Identity "customerName IT Local Accounts").SID
 
 # Check if the XML file exists
 if (Test-Path $xmlFilePath) {
     # Read the contents of the XML file
     $xmlContent = Get-Content $xmlFilePath
 
-    # Replace 'customername' with 'its'
+    # Replace 'customerName' with 'its'
     $xmlContent = $xmlContent -replace [regex]::Escape($oldName), $newName
 
     # Replace old SIDs with new SIDs
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameBetaAccessOldSID), $customernameBetaAccessSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameBetaVMAdminsOldSID), $customernameBetaVMAdminsSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameITLocalAccountsOldSID), $customernameITLocalAccountsSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameBetaAccessOldSID), $customerNameBetaAccessSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameBetaVMAdminsOldSID), $customerNameBetaVMAdminsSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameITLocalAccountsOldSID), $customerNameITLocalAccountsSID
 
     # Write the updated content back to the XML file
     Set-Content -Path $xmlFilePath -Value $xmlContent
 
-    Write-Host "Successfully updated 'customername' to 'its' and old SIDs to new SIDs in the XML file."
+    Write-Host "Successfully updated 'customerName' to $CustomerName and old SIDs to new SIDs in the XML file."
 } else {
     Write-Host "The specified XML file does not exist."
 }
@@ -621,13 +621,13 @@ $RegistryPath2 = "HKCU\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Intern
 
 # Create an array of registry values to remove
 $oldRegistryValues = @(
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameuatkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernamebetakfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernamebetakfx01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernamebetaapp01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernamebetaapp01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernamebetaweb01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernamebetaweb01.customername.oncustomername.co.uk' }
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameuatkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNamebetakfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNamebetakfx01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNamebetaapp01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNamebetaapp01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNamebetaweb01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNamebetaweb01.customerName.oncustomerName.co.uk' }
 )
 
 # Loop through each registry value and remove it
@@ -692,17 +692,17 @@ $RegistryPath5 = "HKCU\Software\Policies\Microsoft\Edge\PopupsAllowedForUrls"
 
 # Create an array of registry values to remove
 $oldRegistryValues = @(
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameppdkfx01.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameppdtkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameppdkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameppdkfx01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameppdapp01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameppdapp01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameppdweb01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameppdweb01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameppdssrs01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameppdssrs01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameppdssrs01/Reports' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameppdkfx01.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameppdtkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameppdkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameppdkfx01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameppdapp01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameppdapp01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameppdweb01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameppdweb01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameppdssrs01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameppdssrs01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameppdssrs01/Reports' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '1' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '2' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '9' },
@@ -778,51 +778,51 @@ $xmlFilePath = "\\${GPO_Domain}\SYSVOL\${GPO_Domain}\Policies\{${GpoLookup}}\Mac
 
 
 # Old name and new name for replacement
-$oldName = "customername"
+$oldName = "customerName"
 $newName = $CustomerName
 
 # Define the old SIDs
-$customernameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
-$customernameppdAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2058"
-$customernameCstDevLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1479"
-$customernameppdWebAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1985"
-$customernameppdVMAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1953"
-$customernameServiceDeskLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1516"
-$customernameBuzzLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1836"
-$customernameppdVMAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-1954"
+$customerNameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
+$customerNameppdAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2058"
+$customerNameCstDevLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1479"
+$customerNameppdWebAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1985"
+$customerNameppdVMAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1953"
+$customerNameServiceDeskLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1516"
+$customerNameBuzzLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1836"
+$customerNameppdVMAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-1954"
 
 # Lookup new SIDs from AD
-$customernameITLocalAccountsSID = (Get-ADGroup -Identity "customername IT Local Accounts").SID.Value
-$customernameppdAccessSID = (Get-ADGroup -Identity "customername ppd Access").SID.Value
-$customernameCstDevLocalSID = (Get-ADGroup -Identity "customername CST Devs Local Account").SID.Value
-$customernameppdWebAdminSID = (Get-ADGroup -Identity "customername ppd Web VM Admin").SID.Value
-$customernameppdVMAdminSID = (Get-ADGroup -Identity "customername PPD VM Admins Access").SID.Value
-$customernameServiceDeskLocalSID = (Get-ADGroup -Identity "customername ServiceDesk Local Accounts").SID.Value
-$customernameBuzzLocalSID = (Get-ADGroup -Identity "customername Buzz Local Accounts").SID.Value
-$customernameppdVMAccessSID = (Get-ADGroup -Identity "customername ppd VM Access").SID.Value
+$customerNameITLocalAccountsSID = (Get-ADGroup -Identity "customerName IT Local Accounts").SID.Value
+$customerNameppdAccessSID = (Get-ADGroup -Identity "customerName ppd Access").SID.Value
+$customerNameCstDevLocalSID = (Get-ADGroup -Identity "customerName CST Devs Local Account").SID.Value
+$customerNameppdWebAdminSID = (Get-ADGroup -Identity "customerName ppd Web VM Admin").SID.Value
+$customerNameppdVMAdminSID = (Get-ADGroup -Identity "customerName PPD VM Admins Access").SID.Value
+$customerNameServiceDeskLocalSID = (Get-ADGroup -Identity "customerName ServiceDesk Local Accounts").SID.Value
+$customerNameBuzzLocalSID = (Get-ADGroup -Identity "customerName Buzz Local Accounts").SID.Value
+$customerNameppdVMAccessSID = (Get-ADGroup -Identity "customerName ppd VM Access").SID.Value
 
 # Check if the XML file exists
 if (Test-Path $xmlFilePath) {
     # Read the contents of the XML file
     $xmlContent = Get-Content $xmlFilePath
 
-    # Replace 'customername' with 'its'
+    # Replace 'customerName' with 'its'
     $xmlContent = $xmlContent -replace [regex]::Escape($oldName), $newName
 
     # Replace old SIDs with new SIDs
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameppdAccessOldSID), $customernameppdAccessSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameITLocalAccountsOldSID), $customernameITLocalAccountsSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameCstDevLocalOldSID), $customernameCstDevLocalSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameppdWebAdminOldSID), $customernameppdWebAdminSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameServiceDeskLocalOldSID), $customernameServiceDeskLocalSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameBuzzLocalOldSID), $customernameBuzzLocalSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameppdVMAccessOldSID), $customernameppdVMAccessSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameppdVMAdminOldSID), $customernameppdVMAdminSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameppdAccessOldSID), $customerNameppdAccessSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameITLocalAccountsOldSID), $customerNameITLocalAccountsSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameCstDevLocalOldSID), $customerNameCstDevLocalSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameppdWebAdminOldSID), $customerNameppdWebAdminSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameServiceDeskLocalOldSID), $customerNameServiceDeskLocalSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameBuzzLocalOldSID), $customerNameBuzzLocalSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameppdVMAccessOldSID), $customerNameppdVMAccessSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameppdVMAdminOldSID), $customerNameppdVMAdminSID
 
     # Write the updated content back to the XML file
     Set-Content -Path $xmlFilePath -Value $xmlContent
 
-    Write-Host "Successfully updated 'customername' to 'its' and old SIDs to new SIDs in the XML file."
+    Write-Host "Successfully updated 'customerName' to $CustomerName and old SIDs to new SIDs in the XML file."
 } else {
     Write-Host "The specified XML file does not exist."
 }
@@ -861,13 +861,13 @@ $RegistryPath2 = "HKCU\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Intern
 
 # Create an array of registry values to remove
 $oldRegistryValues = @(
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameuatkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatkfx01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatapp01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatapp01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatweb01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatweb01.customername.oncustomername.co.uk' }
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameuatkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatkfx01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatapp01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatapp01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatweb01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatweb01.customerName.oncustomerName.co.uk' }
 )
 
 # Loop through each registry value and remove it
@@ -942,27 +942,27 @@ $RegistryPath5 = "HKCU\Software\Policies\Microsoft\Edge\PopupsAllowedForUrls"
 
 # Create an array of registry values to remove
 $oldRegistryValues = @(
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameprodkfx01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameprodkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameprodkfxserver01' },
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameprodkfxserver01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodkfx01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodapp01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodapp01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodweb01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodweb01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodssrs01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodssrs01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodssrs01/Reports' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodkfxserver01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodkfxserver01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodappserver01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodappserver01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodssrsserver01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodssrsserver01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodwebserver01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodwebserver01.customername.oncustomername.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameprodkfx01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameprodkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameprodkfxserver01' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameprodkfxserver01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodkfx01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodapp01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodapp01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodweb01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodweb01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodssrs01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodssrs01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodssrs01/Reports' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodkfxserver01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodkfxserver01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodappserver01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodappserver01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodssrsserver01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodssrsserver01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodwebserver01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodwebserver01.customerName.oncustomerName.co.uk' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '1' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '2' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '9' },
@@ -1071,51 +1071,51 @@ $xmlFilePath = "\\${GPO_Domain}\SYSVOL\${GPO_Domain}\Policies\{${GpoLookup}}\Mac
 
 
 # Old name and new name for replacement
-$oldName = "customername"
+$oldName = "customerName"
 $newName = $CustomerName
 
 # Define the old SIDs
-$customernameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
-$customernameProdAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2059"
-$customernameCstDevLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1479"
-$customernameProdWebAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1952"
-$customernameProdVMAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1648"
-$customernameServiceDeskLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1516"
-$customernameBuzzLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1836"
-$customernameProdVMAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-1649"
+$customerNameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
+$customerNameProdAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2059"
+$customerNameCstDevLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1479"
+$customerNameProdWebAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1952"
+$customerNameProdVMAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1648"
+$customerNameServiceDeskLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1516"
+$customerNameBuzzLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1836"
+$customerNameProdVMAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-1649"
 
 # Lookup new SIDs from AD
-$customernameITLocalAccountsSID = (Get-ADGroup -Identity "customername IT Local Accounts").SID.Value
-$customernameProdAccessSID = (Get-ADGroup -Identity "customername Prod Access").SID.Value
-$customernameCstDevLocalSID = (Get-ADGroup -Identity "customername CST Devs Local Account").SID.Value
-$customernameProdWebAdminSID = (Get-ADGroup -Identity "customername Prod Web VM Admin").SID.Value
-$customernameProdVMAdminSID = (Get-ADGroup -Identity "customername Prod VM Admin").SID.Value
-$customernameServiceDeskLocalSID = (Get-ADGroup -Identity "customername ServiceDesk Local Accounts").SID.Value
-$customernameBuzzLocalSID = (Get-ADGroup -Identity "customername Buzz Local Accounts").SID.Value
-$customernameProdVMAccessSID = (Get-ADGroup -Identity "customername Prod VM Access").SID.Value
+$customerNameITLocalAccountsSID = (Get-ADGroup -Identity "customerName IT Local Accounts").SID.Value
+$customerNameProdAccessSID = (Get-ADGroup -Identity "customerName Prod Access").SID.Value
+$customerNameCstDevLocalSID = (Get-ADGroup -Identity "customerName CST Devs Local Account").SID.Value
+$customerNameProdWebAdminSID = (Get-ADGroup -Identity "customerName Prod Web VM Admin").SID.Value
+$customerNameProdVMAdminSID = (Get-ADGroup -Identity "customerName Prod VM Admin").SID.Value
+$customerNameServiceDeskLocalSID = (Get-ADGroup -Identity "customerName ServiceDesk Local Accounts").SID.Value
+$customerNameBuzzLocalSID = (Get-ADGroup -Identity "customerName Buzz Local Accounts").SID.Value
+$customerNameProdVMAccessSID = (Get-ADGroup -Identity "customerName Prod VM Access").SID.Value
 
 # Check if the XML file exists
 if (Test-Path $xmlFilePath) {
     # Read the contents of the XML file
     $xmlContent = Get-Content $xmlFilePath
 
-    # Replace 'customername' with 'its'
+    # Replace 'customerName' with 'its'
     $xmlContent = $xmlContent -replace [regex]::Escape($oldName), $newName
 
     # Replace old SIDs with new SIDs
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameProdAccessOldSID), $customernameProdAccessSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameITLocalAccountsOldSID), $customernameITLocalAccountsSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameCstDevLocalOldSID), $customernameCstDevLocalSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameProdWebAdminOldSID), $customernameProdWebAdminSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameServiceDeskLocalOldSID), $customernameServiceDeskLocalSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameBuzzLocalOldSID), $customernameBuzzLocalSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameProdVMAccessOldSID), $customernameProdVMAccessSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameProdVMAdminOldSID), $customernameProdVMAdminSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameProdAccessOldSID), $customerNameProdAccessSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameITLocalAccountsOldSID), $customerNameITLocalAccountsSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameCstDevLocalOldSID), $customerNameCstDevLocalSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameProdWebAdminOldSID), $customerNameProdWebAdminSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameServiceDeskLocalOldSID), $customerNameServiceDeskLocalSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameBuzzLocalOldSID), $customerNameBuzzLocalSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameProdVMAccessOldSID), $customerNameProdVMAccessSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameProdVMAdminOldSID), $customerNameProdVMAdminSID
 
     # Write the updated content back to the XML file
     Set-Content -Path $xmlFilePath -Value $xmlContent
 
-    Write-Host "Successfully updated 'customername' to 'its' and old SIDs to new SIDs in the XML file."
+    Write-Host "Successfully updated 'customerName' to $CustomerName and old SIDs to new SIDs in the XML file."
 } else {
     Write-Host "The specified XML file does not exist."
 }
@@ -1154,13 +1154,13 @@ $RegistryPath2 = "HKCU\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Intern
 
 # Create an array of registry values to remove
 $oldRegistryValues = @(
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameprodkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodkfx01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodapp01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodapp01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodweb01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameprodweb01.customername.oncustomername.co.uk' }
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameprodkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodkfx01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodapp01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodapp01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodweb01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameprodweb01.customerName.oncustomerName.co.uk' }
 )
 
 # Loop through each registry value and remove it
@@ -1237,18 +1237,18 @@ $RegistryPath5 = "HKCU\Software\Policies\Microsoft\Edge\PopupsAllowedForUrls"
 
 # Create an array of registry values to remove
 $oldRegistryValues = @(
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameuatkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameuatkfx01.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatkfx01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatapp01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatapp01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatweb01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatweb01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatssrs01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatssrs01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatssrs01/Reports' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatssrs01.customername.oncustomername.co.uk/Reports' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameuatkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameuatkfx01.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatkfx01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatapp01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatapp01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatweb01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatweb01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatssrs01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatssrs01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatssrs01/Reports' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatssrs01.customerName.oncustomerName.co.uk/Reports' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '1' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '2' },
     @{ Name = $GPOName; Key = $RegistryPath3; ValueName = '9' },
@@ -1345,51 +1345,51 @@ $xmlFilePath = "\\${GPO_Domain}\SYSVOL\${GPO_Domain}\Policies\{${GpoLookup}}\Mac
 
 
 # Old name and new name for replacement
-$oldName = "customername"
+$oldName = "customerName"
 $newName = $CustomerName
 
 # Define the old SIDs
-$customernameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
-$customernameuatAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2055"
-$customernameCstDevLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1479"
-$customernameuatWebAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1952"
-$customernameuatVMAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1514"
-$customernameServiceDeskLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1516"
-$customernameBuzzLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1836"
-$customernameuatVMAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-1515"
+$customerNameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
+$customerNameuatAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2055"
+$customerNameCstDevLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1479"
+$customerNameuatWebAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1952"
+$customerNameuatVMAdminOldSID = "S-1-5-21-281918534-52708182-3417967371-1514"
+$customerNameServiceDeskLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1516"
+$customerNameBuzzLocalOldSID = "S-1-5-21-281918534-52708182-3417967371-1836"
+$customerNameuatVMAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-1515"
 
 # Lookup new SIDs from AD
-$customernameITLocalAccountsSID = (Get-ADGroup -Identity "customername IT Local Accounts").SID.Value
-$customernameuatAccessSID = (Get-ADGroup -Identity "customername UAT Access").SID.Value
-$customernameCstDevLocalSID = (Get-ADGroup -Identity "customername CST Devs Local Account").SID.Value
-$customernameuatWebAdminSID = (Get-ADGroup -Identity "customername UAT Web VM Admin").SID.Value
-$customernameuatVMAdminSID = (Get-ADGroup -Identity "customername UAT VM Admins").SID.Value
-$customernameServiceDeskLocalSID = (Get-ADGroup -Identity "customername ServiceDesk Local Accounts").SID.Value
-$customernameBuzzLocalSID = (Get-ADGroup -Identity "customername Buzz Local Accounts").SID.Value
-$customernameuatVMAccessSID = (Get-ADGroup -Identity "customername UAT VM Access").SID.Value
+$customerNameITLocalAccountsSID = (Get-ADGroup -Identity "customerName IT Local Accounts").SID.Value
+$customerNameuatAccessSID = (Get-ADGroup -Identity "customerName UAT Access").SID.Value
+$customerNameCstDevLocalSID = (Get-ADGroup -Identity "customerName CST Devs Local Account").SID.Value
+$customerNameuatWebAdminSID = (Get-ADGroup -Identity "customerName UAT Web VM Admin").SID.Value
+$customerNameuatVMAdminSID = (Get-ADGroup -Identity "customerName UAT VM Admins").SID.Value
+$customerNameServiceDeskLocalSID = (Get-ADGroup -Identity "customerName ServiceDesk Local Accounts").SID.Value
+$customerNameBuzzLocalSID = (Get-ADGroup -Identity "customerName Buzz Local Accounts").SID.Value
+$customerNameuatVMAccessSID = (Get-ADGroup -Identity "customerName UAT VM Access").SID.Value
 
 # Check if the XML file exists
 if (Test-Path $xmlFilePath) {
     # Read the contents of the XML file
     $xmlContent = Get-Content $xmlFilePath
 
-    # Replace 'customername' with 'its'
+    # Replace 'customerName' with 'its'
     $xmlContent = $xmlContent -replace [regex]::Escape($oldName), $newName
 
     # Replace old SIDs with new SIDs
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameuatAccessOldSID), $customernameuatAccessSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameITLocalAccountsOldSID), $customernameITLocalAccountsSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameCstDevLocalOldSID), $customernameCstDevLocalSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameuatWebAdminOldSID), $customernameuatWebAdminSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameServiceDeskLocalOldSID), $customernameServiceDeskLocalSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameBuzzLocalOldSID), $customernameBuzzLocalSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameuatVMAccessOldSID), $customernameuatVMAccessSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameuatVMAdminOldSID), $customernameuatVMAdminSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameuatAccessOldSID), $customerNameuatAccessSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameITLocalAccountsOldSID), $customerNameITLocalAccountsSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameCstDevLocalOldSID), $customerNameCstDevLocalSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameuatWebAdminOldSID), $customerNameuatWebAdminSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameServiceDeskLocalOldSID), $customerNameServiceDeskLocalSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameBuzzLocalOldSID), $customerNameBuzzLocalSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameuatVMAccessOldSID), $customerNameuatVMAccessSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameuatVMAdminOldSID), $customerNameuatVMAdminSID
 
     # Write the updated content back to the XML file
     Set-Content -Path $xmlFilePath -Value $xmlContent
 
-    Write-Host "Successfully updated 'customername' to 'its' and old SIDs to new SIDs in the XML file."
+    Write-Host "Successfully updated 'customerName' to $CustomerName and old SIDs to new SIDs in the XML file."
 } else {
     Write-Host "The specified XML file does not exist."
 }
@@ -1428,13 +1428,13 @@ $RegistryPath2 = "HKCU\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\Intern
 
 # Create an array of registry values to remove
 $oldRegistryValues = @(
-    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customernameuatkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatkfx01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatkfx01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatapp01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatapp01.customername.oncustomername.co.uk' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatweb01' },
-    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customernameuatweb01.customername.oncustomername.co.uk' }
+    @{ Name = $GPOName; Key = $RegistryPath1; ValueName = 'http://customerNameuatkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatkfx01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatkfx01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatapp01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatapp01.customerName.oncustomerName.co.uk' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatweb01' },
+    @{ Name = $GPOName; Key = $RegistryPath2; ValueName = 'http://customerNameuatweb01.customerName.oncustomerName.co.uk' }
 )
 
 # Loop through each registry value and remove it
@@ -1474,33 +1474,33 @@ $xmlFilePath = "\\${GPO_Domain}\SYSVOL\${GPO_Domain}\Policies\{${GpoLookup}}\Mac
 
 
 # Old name and new name for replacement
-$oldName = "customername"
+$oldName = "customerName"
 $newName = $CustomerName
 
 # Define the old SIDs
-$customernameSzAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2006"
-$customernameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
+$customerNameSzAccessOldSID = "S-1-5-21-281918534-52708182-3417967371-2006"
+$customerNameITLocalAccountsOldSID = "S-1-5-21-281918534-52708182-3417967371-1488"
 
 # Lookup new SIDs from AD
-$customernameSzAccessSID = (Get-ADGroup -Identity "$CustomerName Secure Zone Access").SID.Value
-$customernameITLocalAccountsSID = (Get-ADGroup -Identity "customername IT Local Accounts").SID.Value
+$customerNameSzAccessSID = (Get-ADGroup -Identity "$CustomerName Secure Zone Access").SID.Value
+$customerNameITLocalAccountsSID = (Get-ADGroup -Identity "customerName IT Local Accounts").SID.Value
 
 # Check if the XML file exists
 if (Test-Path $xmlFilePath) {
     # Read the contents of the XML file
     $xmlContent = Get-Content $xmlFilePath
 
-    # Replace 'customername' with 'its'
+    # Replace 'customerName' with 'its'
     $xmlContent = $xmlContent -replace [regex]::Escape($oldName), $newName
 
     # Replace old SIDs with new SIDs
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameSzAccessOldSID), $customernameSzAccessSID
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameITLocalAccountsOldSID), $customernameITLocalAccountsSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameSzAccessOldSID), $customerNameSzAccessSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameITLocalAccountsOldSID), $customerNameITLocalAccountsSID
 
     # Write the updated content back to the XML file
     Set-Content -Path $xmlFilePath -Value $xmlContent
 
-    Write-Host "Successfully updated 'customername' to 'its' and old SIDs to new SIDs in the XML file."
+    Write-Host "Successfully updated 'customerName' to $CustomerName and old SIDs to new SIDs in the XML file."
 } else {
     Write-Host "The specified XML file does not exist."
 }
@@ -1512,16 +1512,16 @@ if (Test-Path $xmlFilePath) {
     # Read the contents of the XML file
     $xmlContent = Get-Content $xmlFilePath
 
-    # Replace 'customername' with 'its'
+    # Replace 'customerName' with 'its'
     $xmlContent = $xmlContent -replace [regex]::Escape($oldName), $newName
 
     # Replace old SIDs with new SIDs
-    $xmlContent = $xmlContent -replace [regex]::Escape($customernameITLocalAccountsOldSID), $customernameITLocalAccountsSID
+    $xmlContent = $xmlContent -replace [regex]::Escape($customerNameITLocalAccountsOldSID), $customerNameITLocalAccountsSID
 
     # Write the updated content back to the XML file
     Set-Content -Path $xmlFilePath -Value $xmlContent
 
-    Write-Host "Successfully updated 'customername' to 'its' and old SIDs to new SIDs in the XML file."
+    Write-Host "Successfully updated 'customerName' to $CustomerName and old SIDs to new SIDs in the XML file."
 } else {
     Write-Host "The specified XML file does not exist."
 }
@@ -1573,7 +1573,7 @@ $GpoLookup = (get-gpo -Name "secure - mapped drive").Id
 $xmlFilePath = "\\${GPO_Domain}\SYSVOL\${GPO_Domain}\Policies\{${GpoLookup}}\User\Preferences\Drives\Drives.xml"
 
 # Old name and new name for replacement
-$oldName = "customername"
+$oldName = "customerName"
 $newName = $CustomerName
 
 
@@ -1582,13 +1582,13 @@ if (Test-Path $xmlFilePath) {
     # Read the contents of the XML file
     $xmlContent = Get-Content $xmlFilePath
 
-    # Replace 'customername' with 'its'
+    # Replace 'customerName' with 'its'
     $xmlContent = $xmlContent -replace [regex]::Escape($oldName), $newName
 
     # Write the updated content back to the XML file
     Set-Content -Path $xmlFilePath -Value $xmlContent
 
-    Write-Host "Successfully updated 'customername' to 'its' and old SIDs to new SIDs in the XML file."
+    Write-Host "Successfully updated 'customerName' to $CustomerName and old SIDs to new SIDs in the XML file."
 } else {
     Write-Host "The specified XML file does not exist."
 }
@@ -1712,7 +1712,7 @@ New-GPLink -Name "PPD - Local groups" -Target "OU=Computers,OU=ppd,$adDomain" # 
 New-GPLink -Name "PPD - User AVD settings" -Target "OU=avd,OU=Computers,OU=ppd,$adDomain" # Covers both Computers & AVD OU
 
 # "PROD - Browser settings"
-New-GPLink -Name "PROD - Browser settings" -Target "OU=avd,OU=Computers,OU=prod,$adDomain" # customername PROD different to other ENVs at current 29/10/24 can scope to computers if we need to include the prod servers.
+New-GPLink -Name "PROD - Browser settings" -Target "OU=avd,OU=Computers,OU=prod,$adDomain" # customerName PROD different to other ENVs at current 29/10/24 can scope to computers if we need to include the prod servers.
 
 # "PROD - Local groups"
 New-GPLink -Name "PROD - Local groups" -Target "OU=Computers,OU=prod,$adDomain" # Covers both Computers & AVD OU
