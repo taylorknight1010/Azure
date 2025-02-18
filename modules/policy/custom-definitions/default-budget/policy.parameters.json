@@ -1,0 +1,81 @@
+{
+  "effect": {
+    "type": "String",
+    "defaultValue": "DeployIfNotExists",
+    "allowedValues": [
+      "DeployIfNotExists",
+      "AuditIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "description": "Enable or disable the execution of the policy"
+    }
+  },
+  "budgetName": {
+    "type": "String",
+    "defaultValue": "budget-set-by-policy",
+    "metadata": {
+      "description": "The name for the budget to be created"
+    }
+  },
+  "amount": {
+    "type": "String",
+    "defaultValue": "1000",
+    "metadata": {
+      "description": "The total amount of cost or usage to track with the budget"
+    }
+  },
+  "timeGrain": {
+    "type": "String",
+    "defaultValue": "Monthly",
+    "allowedValues": [
+      "Monthly",
+      "Quarterly",
+      "Annually",
+      "BillingMonth",
+      "BillingQuarter",
+      "BillingAnnual"
+    ],
+    "metadata": {
+      "description": "The time covered by a budget. Tracking of the amount will be reset based on the time grain."
+    }
+  },
+  "firstThreshold": {
+    "type": "String",
+    "defaultValue": "90",
+    "metadata": {
+      "description": "Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000."
+    }
+  },
+  "secondThreshold": {
+    "type": "String",
+    "defaultValue": "100",
+    "metadata": {
+      "description": "Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000."
+    }
+  },
+  "contactRoles": {
+    "type": "Array",
+    "defaultValue": [
+      "Owner",
+      "Contributor"
+    ],
+    "metadata": {
+      "description": "The list of contact RBAC roles, in an array, to send the budget notification to when the threshold is exceeded."
+    }
+  },
+  "contactEmails": {
+    "type": "Array",
+    "defaultValue": [],
+    "metadata": {
+      "description": "The list of email addresses, in an array, to send the budget notification to when the threshold is exceeded."
+    }
+  },
+  "contactGroups": {
+    "type": "Array",
+    "defaultValue": [],
+    "metadata": {
+      "description": "The list of action groups, in an array, to send the budget notification to when the threshold is exceeded. It accepts array of strings."
+    }
+  }
+}
