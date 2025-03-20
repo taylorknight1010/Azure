@@ -9,7 +9,7 @@ $Tier0ServersPath = "OU=Tier0-Servers" + "," + "OU=Tier0," + $CompanyNameOU
 $Tier0UsersPath = "OU=Tier0-Users" + "," + "OU=Tier0," + $CompanyNameOU
 $Tier1ServersPath = "OU=Tier1-Servers" + "," + "OU=Tier1," + $CompanyNameOU
 $Tier1UsersPath = "OU=Tier1-Users" + "," + "OU=Tier1," + $CompanyNameOU
-$Tier1LandscapePath = "OU=Tier1-Landscape" + "," + "OU=Tier1-Servers" + "," + "OU=Tier1," + $CompanyNameOU
+$Tier1Application1Path = "OU=Tier1-Application1" + "," + "OU=Tier1-Servers" + "," + "OU=Tier1," + $CompanyNameOU
 $Tier2ServersPath = "OU=Tier2-Servers" + "," + "OU=Tier2," + $CompanyNameOU
 $Tier2UsersPath = "OU=Tier2-Users" + "," + "OU=Tier2," + $CompanyNameOU
 $Tier2ComputersPath = "OU=Tier2-Computers" + "," + "OU=Tier2," + $CompanyNameOU
@@ -64,20 +64,20 @@ New-ADOrganizationalUnit -Name "Tier1-Groups" -Path $Tier1Path -ProtectedFromAcc
         #Create t1 servers OU
 New-ADOrganizationalUnit -Name "Tier1-Servers" -Path $Tier1Path -ProtectedFromAccidentalDeletion $True
 
-            #Create t1 servers landscape OU
-New-ADOrganizationalUnit -Name "Tier1-Landscape" -Path $Tier1ServersPath -ProtectedFromAccidentalDeletion $True
+            #Create t1 servers Application1 OU
+New-ADOrganizationalUnit -Name "Tier1-Application1" -Path $Tier1ServersPath -ProtectedFromAccidentalDeletion $True
 
-                #Create t1 servers landscape prod OU
-New-ADOrganizationalUnit -Name "Tier1-Landscape-Prod" -Path $Tier1LandscapePath -ProtectedFromAccidentalDeletion $True
+                #Create t1 servers Application1 prod OU
+New-ADOrganizationalUnit -Name "Tier1-Application1-Prod" -Path $Tier1Application1Path -ProtectedFromAccidentalDeletion $True
 
-                #Create t1 servers landscape pre-prod OU
-New-ADOrganizationalUnit -Name "Tier1-Landscape-PProd" -Path $Tier1LandscapePath -ProtectedFromAccidentalDeletion $True
+                #Create t1 servers Application1 pre-prod OU
+New-ADOrganizationalUnit -Name "Tier1-Application1-PProd" -Path $Tier1Application1Path -ProtectedFromAccidentalDeletion $True
 
-                #Create t1 servers landscape uat OU
-New-ADOrganizationalUnit -Name "Tier1-Landscape-UAT" -Path $Tier1LandscapePath -ProtectedFromAccidentalDeletion $True
+                #Create t1 servers Application1 uat OU
+New-ADOrganizationalUnit -Name "Tier1-Application1-UAT" -Path $Tier1Application1Path -ProtectedFromAccidentalDeletion $True
 
-                #Create t1 servers landscape beta OU
-New-ADOrganizationalUnit -Name "Tier1-Landscape-Beta" -Path $Tier1LandscapePath -ProtectedFromAccidentalDeletion $True
+                #Create t1 servers Application1 beta OU
+New-ADOrganizationalUnit -Name "Tier1-Application1-Beta" -Path $Tier1Application1Path -ProtectedFromAccidentalDeletion $True
 
 
 ###########################################################################################################################################
